@@ -2,7 +2,8 @@ package com.andres.microservices;
 
 import java.math.BigDecimal;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,8 @@ public class CurrencyExchangeController {
 	@Autowired
 	private Environment enviroment;
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private ExchangeValueRepository repository;
 	
@@ -27,6 +30,8 @@ public class CurrencyExchangeController {
 		ExchangeValue exchangeValue = repository.findByFromAndTo(from, to);
 		
 		exchangeValue.setPort(Integer.parseInt(enviroment.getProperty("local.server.port")));
+		
+		logger.info("{}",exchangeValue);
 		
 		
 		return exchangeValue ;
